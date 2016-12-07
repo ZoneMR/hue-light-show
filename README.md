@@ -11,7 +11,22 @@ This format is still evolving, but is based on pure JavaScript with some basic e
 
 eg.
 ```
-var BEAT_DURATION = 0.2;
+AIRPLAY_TARGET = "Bedroom"; //Enter the name of your Apple TV or AirPlay speakers
+BEAT_DURATION = 38.11 / 80; //Measure this for your song
 
-@2.00b4 console.log("executed 2 seconds into the song + 4 * BEAT_DURATION");
+//Define Hue Light + Group IDs
+BEDROOM_GROUP = 6;
+BEDROOM_1 = 20;
+BEDROOM_2 = 19;
+BEDROOM_3 = 21;
+BEDROOM_4 = 22;
+...
+
+//Define the Show!
+@0.03b0  hueApi.setLightState(BEDROOM_1, S_PURPLE);
+@0.03b1  hueApi.setLightState(BEDROOM_2, S_GREEN);
+@0.03b2  hueApi.setLightState(BEDROOM_3, S_PURPLE);
+@0.03b3  hueApi.setLightState(BEDROOM_4, S_GREEN);
+
+@2.00b4  console.log("executed 2 seconds into the song + 4 * BEAT_DURATION");
 ```
