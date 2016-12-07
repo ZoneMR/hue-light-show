@@ -3,7 +3,7 @@
  */
  
 AUDIO_FILE = "Heroes (We Could Be) [feat. Tove Lo] [Extended Mix].m4a";
-//^ Get it from iTunes and plact in the assets folder ^
+//^ Get it from iTunes and place in the assets folder ^
 
 AIRPLAY_TARGET = "Bedroom";
 BEAT_DURATION = 38.11 / 80;
