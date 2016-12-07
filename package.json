@@ -1,0 +1,16 @@
+{
+  "name": "hue-light-show",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Martin Rosinski",
+  "license": "ISC",
+  "dependencies": {
+    "airplay-js": "^0.3.0",
+    "airplayer": "^2.0.0",
+    "node-hue-api": "^2.3.0"
+  }
+}
