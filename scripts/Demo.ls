@@ -9,7 +9,9 @@ AIRPLAY_TARGET = "Bedroom";
 BEAT_DURATION = 38.11 / 80;
 BAR_DURATION = BEAT_DURATION * 4; //~1.9s
 
-//Define Hue Light + Group IDs
+//Define Hue API + Light IDs + Group IDs
+hueApi = new HueApi('192.168.1.210', '*** YOUR HUE BRIDGE USERNAME ***');
+
 BEDROOM_GROUP = 6;
 BEDROOM_1 = 20;
 BEDROOM_2 = 19;

@@ -1,6 +1,4 @@
 //Config
-var HUE_HOST = '192.168.1.210';
-var HUE_USERNAME = '1473ccbe42fd33391f37807d1795be0d';
 var SHOW_FILE = process.argv[2];
 
 //Dependencies
@@ -12,18 +10,9 @@ var ipAddress = ip.address();
 
 console.log(`<HueLightShow> on ${ipAddress}`);
 
-//Hue Lights Setup
+//Hue API
 var HueApi = hue.HueApi;
 var HueLightState = hue.lightState;
-
-//Hue API
-hueApi = new HueApi(HUE_HOST, HUE_USERNAME);
-
-/*var displayStatus = function(status) {
-    console.log(JSON.stringify(status, null, 2));
-};
-
-hueApi.getFullState().then(displayStatus).then(process.exit).done();*/
 
 //Load and parse our Script
 var script = fs.readFileSync(SHOW_FILE, 'utf8') + '\n@end';
