@@ -1,6 +1,9 @@
 //Config
 var SHOW_FILE = process.argv[2];
 
+//All actions are advanced by anticipated control lag
+var CONTROL_LAG = 0.05;
+
 //Dependencies
 var ip = require("ip");
 var fs = require('fs');
@@ -135,19 +138,15 @@ list.on('update', function(player) {
                         var localTime = process.hrtime(startTime);
                         localTime = localTime[0] + localTime[1] / 1000000000;
 
-                        var lag = airplayTime - localTime - lagCompensation;
+                        var lag = airplayTime - localTime - lagCompensation - CONTROL_LAG;
 
-                        var capped_lag = lag;
-                        if(capped_lag > 0.05) capped_lag = 0.05;
-                        if(capped_lag < -0.05) capped_lag = -0.05;
-
-                        lagCompensation += capped_lag;
+                        lagCompensation += Math.max(Math.min(lag, 0.03), -0.3);
 
                         if(lag > 0.01 || lag < -0.01) {
                             console.log(`*** lag: ${lag} lagCompensation: ${lagCompensation}`);
                         }
                     })
-                }, 2.5 * 1000);
+                }, 2000);
             }
 
             if (data.state == "stopped") {
