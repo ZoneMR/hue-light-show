@@ -27,6 +27,7 @@ if(!script) {
 var actionsRegex = /([\s\S]*?)\B@(\S+)/g;
 var actions = {};
 var nextTime = undefined;
+var markersCsv = "Name\tStart\tDuration\tTime Format\tType\tDescription\n";
 
 while ((action = actionsRegex.exec(script)) !== null) {
     var actionJs = action[1].trim();
@@ -45,6 +46,14 @@ while ((action = actionsRegex.exec(script)) !== null) {
     if (actionTime[1]) {
         nextTime += parseFloat(actionTime[1]) * BEAT_DURATION;
     }
+
+    csvTime = nextTime.toFixed(3);
+    markersCsv += `${action[2]}\t${csvTime}\t0\tdecimal\tCue\t\n`;
+}
+
+//Save Adobe Audition compatible markers.csv file
+if(SAVE_MARKERS) {
+    fs.writeFileSync(SAVE_MARKERS, markersCsv);
 }
 
 //console.log(actions);
@@ -140,13 +149,13 @@ list.on('update', function(player) {
 
                         var lag = airplayTime - localTime - lagCompensation - CONTROL_LAG;
 
-                        lagCompensation += Math.max(Math.min(lag, 0.03), -0.3);
+                        lagCompensation += Math.max(Math.min(lag, 0.02), -0.2);
 
                         if(lag > 0.01 || lag < -0.01) {
                             console.log(`*** lag: ${lag} lagCompensation: ${lagCompensation}`);
                         }
                     })
-                }, 2000);
+                }, 1000);
             }
 
             if (data.state == "stopped") {
