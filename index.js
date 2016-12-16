@@ -28,6 +28,8 @@ var actionsRegex = /([\s\S]*?)\B@(\S+)/g;
 var actions = {};
 var nextTime = undefined;
 var markersCsv = "Name\tStart\tDuration\tTime Format\tType\tDescription\n";
+var START_TIME = 0;
+var SAVE_MARKERS = false; 
 
 while ((action = actionsRegex.exec(script)) !== null) {
     var actionJs = action[1].trim();
@@ -36,7 +38,9 @@ while ((action = actionsRegex.exec(script)) !== null) {
         console.log("Running Light Show Script Setup");
         eval(actionJs);
     } else {
-        actions[nextTime] = actionJs;
+        if(nextTime >= START_TIME) {
+            actions[nextTime] = actionJs;
+        }
     }
 
     var actionTime = action[2].split('b');
@@ -74,6 +78,7 @@ function runScript() {
         var tickTime = process.hrtime(startTime);
 
         tickTime = tickTime[0] + tickTime[1] / 1000000000;
+        tickTime += START_TIME || 0;
         tickTime += lagCompensation;
 
         var actionTime = actionTimes[0];
@@ -131,8 +136,10 @@ list.on('update', function(player) {
         player.on('event', (data) => {
             console.log('Event: ' + JSON.stringify(data));
 
-            if (data.state == "playing") {
+            if (data.state == "playing" && !startTime) {
                 startTime = process.hrtime();
+
+                START_TIME && player.scrub(START_TIME);
 
                 runScript();
 
@@ -146,6 +153,7 @@ list.on('update', function(player) {
 
                         var localTime = process.hrtime(startTime);
                         localTime = localTime[0] + localTime[1] / 1000000000;
+                        localTime += START_TIME || 0;
 
                         var lag = airplayTime - localTime - lagCompensation - CONTROL_LAG;
 
